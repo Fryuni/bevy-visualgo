@@ -30,41 +30,56 @@
       );
   in {
     overlays.default = _: prev: let
-  fenix = inputs.fenix.packages.${prev.stdenv.hostPlatform.system};
+      fenix = inputs.fenix.packages.${prev.stdenv.hostPlatform.system};
       toml = with builtins; (fromTOML (readFile ./rust-toolchain.toml)).toolchain;
-      toolchain = (fenix.fromToolchainName {
-    name = toml.channel;
-    # sha256 = prev.lib.fakeSha256;
+      toolchain = fenix.fromToolchainName {
+        name = toml.channel;
+        # sha256 = prev.lib.fakeSha256;
         sha256 = "sha256-rCvHLpcrLKXtcpyysfi51zsSgMxB2+pXRIoJnUt2ORM=";
-  });
-      in {
+      };
+    in {
       # rustToolchain = toolchain."${toml.profile or "default"}Toolchain";
-      rustToolchain = 
-        fenix.combine ([
+      rustToolchain = fenix.combine (
+        [
           # toolchain."${toml.profile or "default"}Toolchain"
           (toolchain.withComponents (toml.components or []))
         ]
         ++ map (target: fenix.targets.${target}.${toml.channel}.rust-std) (toml.targets or [])
-        );
+      );
     };
 
     formatter = forEachSupportedSystem ({pkgs}: pkgs.alejandra);
 
     devShells = forEachSupportedSystem (
       {pkgs}: {
-        default = pkgs.mkShell {
-          packages = with pkgs; [
+        default = pkgs.mkShell rec {
+          buildInputs = with pkgs; [
             rustToolchain
-            openssl
             clang
             lld
+
+            # Wayland
+            libxkbcommon.dev
             wayland.dev
-            alsa-lib-with-plugins
-            alsa-lib-with-plugins.dev
-            systemd.dev
+            # Xorg
+            xorg.libX11
+            xorg.libX11
+            xorg.libXcursor
+            xorg.libXi
+            xorg.libXrandr
+            # Other
+            openssl
             pkg-config
+            alsa-lib.dev
+            systemd.dev
+            vulkan-validation-layers
+
+            vulkan-loader
+            vulkan-tools
+
             cargo-deny
             cargo-edit
+            cargo-expand
             cargo-watch
             rust-analyzer
           ];
@@ -74,6 +89,7 @@
             RUST_SRC_PATH = "${pkgs.rustToolchain}/lib/rustlib/src/rust/library";
             RUST_BACKTRACE = "1";
             CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG = "true";
+            LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath buildInputs;
           };
         };
       }
