@@ -1,4 +1,13 @@
 [toolchain]
 channel = "nightly"
-components = ["rustfmt", "rustc-dev", "rust-analyzer", "rust-docs"]
-profile = "minimal"
+components = [
+  "rustfmt",
+  "rustc",
+  "cargo",
+  "rust-std",
+  "rust-src",
+  "rust-analyzer",
+  "rust-docs",
+  "llvm-tools",
+]
+profile = "default"
