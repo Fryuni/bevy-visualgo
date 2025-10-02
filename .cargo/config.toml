@@ -40,3 +40,7 @@ rustflags = [
 
 [build]
 incremental = true
+
+[aliases]
+rdev = "run --features dev"
+t = "test --features dev"

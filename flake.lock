@@ -1,24 +1,20 @@
 {
   "nodes": {
-    "fenix": {
+    "flake-utils": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "rust-analyzer-src": "rust-analyzer-src"
+        "systems": "systems"
       },
       "locked": {
-        "lastModified": 1759301100,
-        "narHash": "sha256-hmiTEoVAqLnn80UkreCNunnRKPucKvcg5T4/CELEtbw=",
-        "owner": "nix-community",
-        "repo": "fenix",
-        "rev": "0956bc5d1df2ea800010172c6bc4470d9a22cb81",
-        "type": "github"
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "revCount": 102,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/numtide/flake-utils/0.1.102%2Brev-11707dc2f618dd54ca8739b309ec4fc024de578b/0193276d-5b8f-7dbc-acf1-41cb7b54ad2e/source.tar.gz"
       },
       "original": {
-        "owner": "nix-community",
-        "repo": "fenix",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/numtide/flake-utils/0.1"
       }
     },
     "nixpkgs": {
@@ -37,24 +33,42 @@
     },
     "root": {
       "inputs": {
-        "fenix": "fenix",
-        "nixpkgs": "nixpkgs"
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "rust-overlay": "rust-overlay"
       }
     },
-    "rust-analyzer-src": {
-      "flake": false,
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1759245522,
-        "narHash": "sha256-H4Hx/EuMJ9qi1WzPV4UG2bbZiDCdREtrtDvYcHr0kmk=",
-        "owner": "rust-lang",
-        "repo": "rust-analyzer",
-        "rev": "a6bc4a4bbe6a65b71cbf76a0cf528c47a8d9f97f",
+        "lastModified": 1759372351,
+        "narHash": "sha256-kULiC2oMMuyaO92gPiu+6XBfeXuFcXaauwo0tXAwXdQ=",
+        "rev": "7ef14552303de7128662666f9a71342099ffc725",
+        "revCount": 1934,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/oxalica/rust-overlay/0.1.1934%2Brev-7ef14552303de7128662666f9a71342099ffc725/0199a2c5-b33c-75b5-b3c7-3754fdd85776/source.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://flakehub.com/f/oxalica/rust-overlay/0.1"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
         "type": "github"
       },
       "original": {
-        "owner": "rust-lang",
-        "ref": "nightly",
-        "repo": "rust-analyzer",
+        "owner": "nix-systems",
+        "repo": "default",
         "type": "github"
       }
     }
