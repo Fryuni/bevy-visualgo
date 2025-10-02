@@ -13,3 +13,22 @@ log = { version = "*", features = [
 [target.x86_64-unknown-linux-gnu]
 linker = "clang"
 rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+# Enable a small amount of optimization in the dev profile.
+[profile.dev]
+opt-level = 1
+codegen-backend = "cranelift"
+
+# Enable a large amount of optimization in the dev profile for dependencies.
+[profile.dev.package."*"]
+opt-level = 3
+codegen-backend = "llvm"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = "s"
+strip = "debuginfo"
