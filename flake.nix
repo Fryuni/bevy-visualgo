@@ -35,6 +35,7 @@
           # Other
           vulkan-loader
           vulkan-tools
+          git
         ];
 
         linux-deps = with pkgs; [
@@ -57,24 +58,8 @@
           lld
         ];
 
-        darwin-deps = with pkgs.darwin.apple_sdk.frameworks; [
-          AppKit
-          ApplicationServices
-          AudioToolbox
-          AudioUnit
-          Carbon
-          CoreAudio
-          CoreFoundation
-          CoreGraphics
-          CoreServices
-          CoreVideo
-          CoreMIDI
-          Foundation
-          IOKit
-          QuartzCore
-          Metal
-          OpenAL
-          Security
+        darwin-deps = [
+          pkgs.apple-sdk_15
           pkgs.libiconv
         ];
 
