@@ -1,5 +1,5 @@
-# [unstable]
-# codegen-backend = true
+[unstable]
+codegen-backend = true
 
 [target.x86_64-unknown-linux-gnu]
 linker = "clang"
@@ -38,9 +38,17 @@ rustflags = [
   "-Zthreads=0",
 ]
 
+[target.wasm32-unknown-unknown]
+rustflags = [
+  '--cfg',
+  'getrandom_backend="wasm_js"',
+  "-Zshare-generics=y",
+  "-Zthreads=0",
+]
+
 [build]
 incremental = true
 
-[aliases]
+[alias]
 rdev = "run --features dev"
 t = "test --features dev"

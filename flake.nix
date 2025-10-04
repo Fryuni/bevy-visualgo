@@ -79,6 +79,7 @@
         ];
 
         web-deps = with pkgs; [
+          trunk
           wasm-bindgen-cli
           binaryen
         ];
@@ -87,6 +88,7 @@
           "clippy"
           "rustfmt"
           "rust-src"
+          "rustc-codegen-cranelift"
         ];
       in {
         formatter = pkgs.alejandra;
@@ -94,7 +96,7 @@
         devShells = {
           # Regular shell
           default = let
-            toolchain = pkgs.rust-bin.nightly.latest.default.override {
+            toolchain = pkgs.rust-bin.nightly.latest.minimal.override {
               inherit extensions;
               targets =
                 ["wasm32-unknown-unknown"]
@@ -118,20 +120,24 @@
 
               RUST_SRC_PATH = "${toolchain}/lib/rustlib/src/rust/library";
               LD_LIBRARY_PATH = makeLibraryPath buildInputs;
-              RUSTFLAGS = "-Zshare-generics=y -Zthreads=0";
+              # RUSTFLAGS = "-Zshare-generics=y -Zthreads=0";
             };
-          # web = let
-          #   toolchain = pkgs.rust-bin.nightly.latest.default.override {
-          #     targets = ["wasm32-unknown-unknown"];
-          #   };
-          # in
-          #   mkShell rec {
-          #     buildInputs = [toolchain] ++ general-deps ++ web-deps;
-          #
-          #     RUST_SRC_PATH = "${toolchain}/lib/rustlib/src/rust/library";
-          #     LD_LIBRARY_PATH = makeLibraryPath buildInputs;
-          #     RUSTFLAGS = "-Zshare-generics=y -Zthreads=0";
-          #   };
+          web = let
+            toolchain = pkgs.rust-bin.nightly.latest.default.override {
+              targets = ["wasm32-unknown-unknown"];
+            };
+            platform = pkgs.makeRustPlatform {inherit (toolchain) cargo rustc;};
+          in
+            mkShell rec {
+              buildInputs = [
+                toolchain
+                platform.bindgenHook
+              ] ++ general-deps ++ web-deps;
+
+              RUST_SRC_PATH = "${toolchain}/lib/rustlib/src/rust/library";
+              LD_LIBRARY_PATH = makeLibraryPath buildInputs;
+              # RUSTFLAGS = "-Zshare-generics=y -Zthreads=0";
+            };
         };
       }
     );
