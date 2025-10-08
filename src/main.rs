@@ -1,8 +1,9 @@
+use bevy::diagnostic::FrameCount;
 use bevy::{app::AppExit, prelude::*};
 use bevy_ratatui::event::KeyEvent;
 use bevy_ratatui::{RatatuiContext, RatatuiPlugins};
 use ratatui::crossterm::event::KeyCode;
-use ratatui::text::Text;
+use ratatui::prelude::*;
 
 fn main() {
     App::new()
@@ -12,15 +13,17 @@ fn main() {
             )),
             RatatuiPlugins::default(),
         ))
-        .add_systems(PreUpdate, input_system)
+        .add_systems(Main, input_system)
         .add_systems(Update, draw_system)
         .run();
 }
 
-fn draw_system(mut context: ResMut<RatatuiContext>) -> Result {
+fn draw_system(mut context: ResMut<RatatuiContext>, frames: Res<FrameCount>) -> Result {
     context.draw(|frame| {
-        let text = Text::raw("hello world\npress 'q' to quit");
-        frame.render_widget(text, frame.area());
+        frame.render_widget(
+            Text::raw(format!("Frame count: {}", frames.0)),
+            frame.area(),
+        );
     })?;
 
     Ok(())

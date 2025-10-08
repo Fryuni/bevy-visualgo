@@ -1,3 +1,5 @@
+cargo-features = ["codegen-backend"]
+
 [package]
 name = "bevy-visualgo"
 version = "0.1.0"
@@ -8,68 +10,23 @@ default = []
 dev = ["bevy/dynamic_linking"]
 
 [dependencies.bevy]
-version = "0.17.1"
+version = "0.16.1"
 default-features = false
 features = [
-  # Default features
   "std",
-  "async_executor",
-  "animation",
-  "bevy_asset",
-  # "bevy_audio",
-  "bevy_color",
-  "bevy_core_pipeline",
-  "bevy_post_process",
-  "bevy_anti_alias",
-  # "bevy_gilrs",
-  # "bevy_gizmos",
-  # "bevy_gltf",
-  "bevy_input_focus",
   "bevy_log",
-  # "bevy_mesh_picking_backend",
-  "bevy_pbr",
-  "bevy_picking",
-  "bevy_render",
-  "bevy_scene",
-  "bevy_image",
-  # "bevy_mesh",
-  "bevy_camera",
-  "bevy_light",
-  # "bevy_shader",
-  "bevy_sprite",
-  # "bevy_sprite_picking_backend",
-  # "bevy_sprite_render",
-  "bevy_state",
-  "bevy_text",
-  "bevy_ui",
-  "bevy_ui_picking_backend",
-  "bevy_ui_render",
-  "bevy_window",
-  "bevy_winit",
-  "custom_cursor",
-  "default_font",
-  # "hdr",
-  "ktx2",
+  "async_executor",
   "multi_threaded",
-  "png",
-  "reflect_auto_register",
-  # "smaa_luts",
-  "sysinfo_plugin",
-  # "tonemapping_luts",
-  "vorbis",
-  "webgl2",
-  "x11",
-  "wayland",
-  "debug",
-  "zstd_rust",
-
-  # Extras
-  "bevy_ui_debug",
+  "bevy_state",
   "libm",
+  "reflect_documentation",
+  "reflect_functions",
+  # "serialize",
 ]
 
 [dependencies]
-bevy_ratatui = "0.9.3"
+bevy_ratatui = { version = "0.9.3", features = ["libm"] }
+ratatui = "0.29.0"
 getrandom = { version = "*", features = ["wasm_js"] }
 
 log = { version = "*", features = [

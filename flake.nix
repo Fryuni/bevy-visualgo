@@ -85,6 +85,10 @@
               inherit extensions;
               targets =
                 ["wasm32-unknown-unknown"]
+                ++ optionals isLinux [
+                  "x86_64-unknown-linux-musl"
+                  "x86_64-unknown-linux-gnu"
+                ]
                 ++ optionals isDarwin [
                   "x86_64-apple-darwin"
                   "aarch64-apple-darwin"
@@ -114,10 +118,12 @@
             platform = pkgs.makeRustPlatform {inherit (toolchain) cargo rustc;};
           in
             mkShell rec {
-              buildInputs = [
-                toolchain
-                platform.bindgenHook
-              ] ++ general-deps ++ web-deps;
+              buildInputs =
+                [
+                  toolchain
+                  platform.bindgenHook
+                ]
+                ++ general-deps ++ web-deps;
 
               RUST_SRC_PATH = "${toolchain}/lib/rustlib/src/rust/library";
               LD_LIBRARY_PATH = makeLibraryPath buildInputs;
